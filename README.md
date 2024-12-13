@@ -74,7 +74,7 @@ docker pull klamichhane738/bestbuy-staff-service:latest
 ```
 ## Image link : https://hub.docker.com/repository/docker/klamichhane738/bestbuy-staff-service/general
 
-### Deploying to Kubernetes
+## Deploying to Kubernetes
 
 ## Step 1: Create an AKS Cluster
 
@@ -144,7 +144,7 @@ spec:
 
 ---
 
-## Step 3: Deploy the Service to AKS
+### Step 3: Deploy the Service to AKS
 
 ### Apply the Deployment
 ```bash
