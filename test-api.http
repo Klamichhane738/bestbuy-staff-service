@@ -1,0 +1,55 @@
+# GET root URL
+GET http://localhost:8000/
+Accept: text/plain
+
+###
+
+# GET health check
+GET http://localhost:8000/health
+Accept: application/json
+
+###
+
+# GET all staff members
+GET http://localhost:8000/staff
+Accept: application/json
+
+###
+
+# GET a specific staff member by ID
+GET http://localhost:8000/staff/<replace-with-id>
+Accept: application/json
+
+###
+
+# POST create a new staff member
+POST http://localhost:8000/staff
+Content-Type: application/json
+
+{
+  "name": "Rohan",
+  "position": "Manager",
+  "department": "Sales",
+  "email": "Rohan@example.com",
+  "phone": "120-456-7890"
+}
+
+
+###
+
+# PUT update a staff member by ID
+PUT http://localhost:8000/staff/<replace-with-id>
+Content-Type: application/json
+
+{
+  "name": "Keshav Updated",
+  "position": "Team Lead",
+  "department": "Marketing",
+  "email": "keshav.updated@example.com",
+  "phone": "987-654-3210"
+}
+
+###
+
+# DELETE a staff member by ID
+DELETE http://localhost:8000/staff/<replace-with-id>
