@@ -71,5 +71,5 @@ The staff-service is containerized using Docker. You can pull the image from Doc
 
 ```bash
 docker pull klamichhane738/bestbuy-staff-service:latest
-
+```
 ## Image link : https://hub.docker.com/repository/docker/klamichhane738/bestbuy-staff-service/general
