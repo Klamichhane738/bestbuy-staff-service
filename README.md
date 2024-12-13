@@ -73,3 +73,107 @@ The staff-service is containerized using Docker. You can pull the image from Doc
 docker pull klamichhane738/bestbuy-staff-service:latest
 ```
 ## Image link : https://hub.docker.com/repository/docker/klamichhane738/bestbuy-staff-service/general
+
+### Deploying to Kubernetes
+
+## Step 1: Create an AKS Cluster
+
+### Log in to Azure CLI
+```bash
+az login
+```
+
+### Create a Resource Group
+```bash
+az group create --name bestbuy-resource-group --location eastus
+```
+
+### Create an AKS Cluster
+```bash
+az aks create --resource-group bestbuy-resource-group --name bestbuy-aks-cluster --node-count 1 --generate-ssh-keys
+```
+
+### Connect to the Cluster
+```bash
+az aks get-credentials --resource-group bestbuy-resource-group --name bestbuy-aks-cluster
+```
+
+---
+
+## Step 2: Write the Kubernetes Deployment YAML File
+
+Create a file named `staff-service-deployment.yaml` in the root of your project with the following content:
+
+### `deployment.yaml`:
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: staff-service-deployment
+  labels:
+    app: staff-service
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: staff-service
+  template:
+    metadata:
+      labels:
+        app: staff-service
+    spec:
+      containers:
+      - name: staff-service-container
+        image: klamichhane738/bestbuy-staff-service:latest
+        ports:
+        - containerPort: 8000
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: staff-service
+spec:
+  selector:
+    app: staff-service
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8000
+  type: LoadBalancer
+```
+
+---
+
+## Step 3: Deploy the Service to AKS
+
+### Apply the Deployment
+```bash
+kubectl apply -f staff-service-deployment.yaml
+```
+
+### Verify the Deployment
+
+#### Check the Pods
+```bash
+kubectl get pods
+```
+
+#### Check the Service
+```bash
+kubectl get svc
+```
+
+Once the service is running, note the `EXTERNAL-IP` of the LoadBalancer to access the `staff-service` API.
+
+---
+
+## Step 4: Push the YAML File to the Repository
+
+### Push YAML File to Git Repository
+```bash
+git add deployment.yaml
+git commit -m "Adding AKS deployment file"
+git push origin main
+```
+
+
