@@ -51,10 +51,16 @@ python app.py
 Use test-api.http to test the REST API using the REST Client extension in Visual Studio Code.
 
 ### API Endpoints
-GET /: Root endpoint with a welcome message.
-GET /health: Health check endpoint to confirm the service is running.
-GET /staff: Retrieve all staff members.
-GET /staff/<id>: Retrieve a specific staff member by ID.
-POST /staff: Add a new staff member.
-PUT /staff/<id>: Update an existing staff member.
-DELETE /staff/<id>: Delete a staff member.
+1. GET /: Root endpoint with a welcome message.
+
+2. GET /health: Health check endpoint to confirm the service is running.
+
+3. GET /staff: Retrieve all staff members.
+
+4. GET /staff/<id>: Retrieve a specific staff member by ID.
+
+5. POST /staff: Add a new staff member.
+
+6. PUT /staff/<id>: Update an existing staff member.
+
+7. DELETE /staff/<id>: Delete a staff member.
