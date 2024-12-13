@@ -64,3 +64,12 @@ Use test-api.http to test the REST API using the REST Client extension in Visual
 6. PUT /staff/<id>: Update an existing staff member.
 
 7. DELETE /staff/<id>: Delete a staff member.
+
+## Docker Image
+
+The staff-service is containerized using Docker. You can pull the image from Docker Hub:
+
+```bash
+docker pull klamichhane738/bestbuy-staff-service:latest
+
+## Image link : https://hub.docker.com/repository/docker/klamichhane738/bestbuy-staff-service/general
