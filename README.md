@@ -175,5 +175,96 @@ git add deployment.yaml
 git commit -m "Adding AKS deployment file"
 git push origin main
 ```
+# GitHub Actions CI/CD Workflow for BestBuy Staff Service
+
+## Step 1: Fork the Repository and Set Up Secrets
+
+### Fork the Repository
+1. Fork the repository: **BestBuy Staff Service**.
+
+### Set Up Secrets
+1. Navigate to **Settings > Secrets and variables > Actions** in your forked repository.
+2. Add the following Secrets:
+   - **DOCKER_USERNAME**: Your Docker Hub username.
+   - **DOCKER_PASSWORD**: Your Docker Hub password.
+   - **KUBE_CONFIG_DATA**: Your base64-encoded Kubernetes configuration file.
+   
+   To generate it, run the following command in your terminal:
+   ```bash
+   cat ~/.kube/config | base64 -w 0 > kube_config_base64.txt
+   ```
+   Copy the content of `kube_config_base64.txt` into the **KUBE_CONFIG_DATA** secret.
+
+### Set Up Environment Variables
+1. Navigate to **Settings > Secrets and variables > Actions** in your forked repository.
+2. Add the following Repository Variables:
+   - **DOCKER_IMAGE_NAME**: For example, `bestbuy-staff-service`.
+   - **DEPLOYMENT_NAME**: The Kubernetes deployment name. For example, `staff-service-deployment`.
+   - **CONTAINER_NAME**: The container name. For example, `staff-service`.
+
+---
+
+## Step 2: Create the Workflow File
+
+### Create the Workflow Directory
+1. In the root of your forked repository, create the `.github/workflows/` directory.
+
+### Add the Workflow File
+1. Copy the `ci_cd.yaml` file from the **Workflow Files** folder (provided in the original repository) into `.github/workflows/` in your forked repository.
+
+---
+
+## Step 3: Understand the Workflow File
+
+The `ci_cd.yaml` file automates the CI/CD pipeline. Key components include:
+
+### Triggers
+The workflow runs whenever a push is made to the `main` branch:
+```yaml
+on:
+  push:
+    branches:
+      - main
+```
+
+### Jobs
+1. **Build**: Builds a Docker image for the service and pushes it to Docker Hub.
+2. **Test**: Runs automated tests for the application.
+3. **Release**: Promotes the Docker image to the latest tag.
+4. **Deploy**: Deploys the updated image to AKS using `kubectl`.
+
+### Secrets and Environment Variables
+- **Secrets**: (`DOCKER_USERNAME`, `DOCKER_PASSWORD`, `KUBE_CONFIG_DATA`) are securely passed to the workflow.
+- **Environment Variables**: (`DOCKER_IMAGE_NAME`, `DEPLOYMENT_NAME`, `CONTAINER_NAME`) are used to parameterize the workflow.
+
+---
+
+## Step 4: Deploy the Application
+
+### Set Up an AKS Cluster
+1. Ensure you have a running Azure Kubernetes Service (AKS) cluster.
+2. Connect your local machine to the cluster:
+   ```bash
+   az aks get-credentials --resource-group <resource-group> --name <cluster-name>
+   ```
+
+### Deploy BestBuy Staff Service
+1. Use the provided deployment file in the **Deployment Files** folder to deploy the service:
+   ```bash
+   kubectl apply -f staff-service.yaml
+   ```
+
+### Push Code Changes
+1. Make any code changes in your repository and push them to the `main` branch to trigger the workflow.
+
+### Monitor Workflow Execution
+1. Go to the **Actions** tab in your repository to monitor workflow execution (Build, Test, Release, Deploy).
+
+### Validate the Deployment
+1. After the workflow completes, validate that the application is running in the AKS cluster:
+   ```bash
+   kubectl get pods
+   kubectl get services
+   ```
 
 
