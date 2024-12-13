@@ -43,12 +43,18 @@ cd bestbuy-staff-service
 
 pip install -r requirements.txt
 
+![alt text](<Screenshots/Screenshot (2723).png>)
+
 4. Run the application:
 python app.py
+
+![alt text](<Screenshots/Screenshot (2722).png>)
 
 5. The API will be running at http://127.0.0.1:8000
 
 Use test-api.http to test the REST API using the REST Client extension in Visual Studio Code.
+
+![alt text](<Screenshots/Screenshot (2720).png>)
 
 ### API Endpoints
 1. GET /: Root endpoint with a welcome message.
@@ -65,7 +71,25 @@ Use test-api.http to test the REST API using the REST Client extension in Visual
 
 7. DELETE /staff/<id>: Delete a staff member.
 
+Example of one crud operation: Adding staff:
+
+![alt text](<Screenshots/Screenshot (2726).png>)
+
 ## Docker Image
+
+### Build the docker image
+
+```bash
+docker build -t klamichhane738/bestbuy-staff-service:latest .
+```
+### Push to the docker hub
+```bash
+docker login
+docker push klamichhane738/bestbuy-staff-service:latest
+```
+
+![alt text](<Screenshots/Screenshot (2744).png>)
+
 
 The staff-service is containerized using Docker. You can pull the image from Docker Hub:
 
@@ -73,6 +97,8 @@ The staff-service is containerized using Docker. You can pull the image from Doc
 docker pull klamichhane738/bestbuy-staff-service:latest
 ```
 ## Image link : https://hub.docker.com/repository/docker/klamichhane738/bestbuy-staff-service/general
+
+
 
 ## Deploying to Kubernetes
 
@@ -90,19 +116,23 @@ az group create --name bestbuy-resource-group --location eastus
 
 ### Create an AKS Cluster
 ```bash
-az aks create --resource-group bestbuy-resource-group --name bestbuy-aks-cluster --node-count 1 --generate-ssh-keys
+az aks create --resource-group Finalexam --name bestbuy-aks-cluster --node-count 1 --generate-ssh-keys
 ```
 
 ### Connect to the Cluster
 ```bash
-az aks get-credentials --resource-group bestbuy-resource-group --name bestbuy-aks-cluster
+az aks get-credentials --resource-group Finalexam --name bestbuycluster
 ```
 
 ---
 
+![alt text](<Screenshots/Screenshot (2733).png>)
+
 ## Step 2: Write the Kubernetes Deployment YAML File
 
-Create a file named `staff-service-deployment.yaml` in the root of your project with the following content:
+Create a file named `staff-service.yaml` in the root of your project with the following content:
+
+![alt text](<Screenshots/Screenshot (2735).png>)
 
 ### `deployment.yaml`:
 ```yaml
@@ -148,8 +178,9 @@ spec:
 
 ### Apply the Deployment
 ```bash
-kubectl apply -f staff-service-deployment.yaml
+kubectl apply -f staff-service.yaml
 ```
+![alt text](<Screenshots/Screenshot (2736).png>)
 
 ### Verify the Deployment
 
@@ -194,6 +225,8 @@ git push origin main
    cat ~/.kube/config | base64 -w 0 > kube_config_base64.txt
    ```
    Copy the content of `kube_config_base64.txt` into the **KUBE_CONFIG_DATA** secret.
+
+![alt text](<Screenshots/Screenshot (2739).png>)
 
 ### Set Up Environment Variables
 1. Navigate to **Settings > Secrets and variables > Actions** in your forked repository.
@@ -260,6 +293,8 @@ on:
 ### Monitor Workflow Execution
 1. Go to the **Actions** tab in your repository to monitor workflow execution (Build, Test, Release, Deploy).
 
+![alt text](<Screenshots/Screenshot (2741).png>)
+
 ### Validate the Deployment
 1. After the workflow completes, validate that the application is running in the AKS cluster:
    ```bash
@@ -267,4 +302,8 @@ on:
    kubectl get services
    ```
 
+
+![alt text](<Screenshots/Screenshot (2742).png>)
+
+![alt text](<Screenshots/Screenshot (2743).png>)
 
